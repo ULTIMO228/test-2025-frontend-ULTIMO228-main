@@ -1,0 +1,262 @@
+* {
+    font-family: 'Manrope', serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+button {
+    background: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+    position: relative;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Предыдущие стили остаются без изменений */
+
+.container-second {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.container-second.active {
+    display: flex;
+}
+
+.container-second-content {
+    width: 500px;
+    max-width: 90%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    opacity: 1;
+    position: relative;
+    z-index: 11;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.test-list {
+    border: 1px solid  #7b7b7b;
+    border-radius: 6px;
+    padding: 1em;
+    width: 100%;
+}
+
+.test-item {
+    padding: 0.5em;
+    border-bottom: 1px solid  #7b7b7b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.test-item:last-child {
+    border-bottom: none;
+}
+
+.test-item:hover {
+    background-color: #f0f0f0;
+}
+
+.test-item .delete-icon {
+    display: none;
+    position: absolute;
+    right: 10px;
+}
+
+.test-item:hover .delete-icon {
+    display: block;
+}
+
+.add-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid  #7b7b7b;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    background-color: #fff;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Стили для второй части сайта */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 20;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    max-width: 90%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+}
+
+.container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.container label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.container-second-content h1,label,input,div{
+    margin-bottom: 8px;
+}
+
+.question-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.question-container input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid  #7b7b7b;
+    border-radius: 5px;
+}
+
+.question-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.question-buttons button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid  #7b7b7b;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    width: calc(50% - 10px);
+}
+
+.option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.option-text{
+    width: calc(100% - 30px);
+    padding: 5px;
+    border: 1px solid  #7b7b7b;
+    border-radius: 6px;
+    height: 50px;
+}
+
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.floating-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+}

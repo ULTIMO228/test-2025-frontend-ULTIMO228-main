@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import './variables.css';
+@import './reset.css';
+.container {
+    display: flex;
+    width: 90%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    margin: 0 auto;
+}
+.sidebar {
+    width: 20%;
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+}
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: left;
+}
+.sidebar button.active {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+.content {
+    width: 80%;
+    padding-left: 20px;
+    text-align: center;
+}
+.content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.question-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    display: inline-block;
+    text-align: left;
+}
+.question-box p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.question-box button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.navigation {
+    margin-top: 20px;
+}
+.navigation button {
+    padding: 10px;
+    margin: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+}
+.finish-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}

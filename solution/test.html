@@ -1,0 +1,504 @@
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Тест на знание персонажей из игры Dota 2</title>
+    <link rel="stylesheet" href="./styles/variables.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+        * {
+            font-family: 'Manrope', serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 170px;
+            border: 1px solid #7b7b7b;
+            padding: 16px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            flex-wrap: wrap;
+            height: 90vh;
+            margin-top: 32px;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #000000;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .sidebar button:hover {
+            background-color: #efefef;
+        }
+
+        .sidebar button.active {
+            border-color: #000;
+        }
+
+        .sidebar button.correct {
+            background-color: #ccffb6;
+        }
+
+        .sidebar button.incorrect {
+            background-color: #ffb6b6;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .content h1 {
+            font-size: 24px;
+            margin-bottom: 32px;
+        }
+
+        .question-box {
+            display: flex;
+            padding: 20px;
+            border: 1px solid #7b7b7b;
+            border-radius: 16px;
+            background-color: #ffffff;
+            flex-direction: column;
+            margin: 18px auto;
+        }
+
+        .question-box p {
+            font-size: 24px;
+            margin: 12px;
+            font-weight: bold;
+        }
+
+        .question-box button {
+            padding: 8px 16px;
+            margin: 8px;
+            border: 1px solid #7b7b7b;
+            border-radius: 6px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: black;
+            font-size: 16px;
+        }
+
+        .question-box button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .question-box button.correct {
+            background-color: #ccffb6;
+        }
+
+        .question-box button.incorrect {
+            background-color: #ffb6b6;
+        }
+
+        .navigation {
+            margin: 32px;
+        }
+
+        .navigation button {
+            margin: 0 16px;
+            border: 1px solid #7b7b7b;
+            border-radius: 50%;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 24px;
+            height: 50px;
+            width: 50px;
+        }
+
+        .navigation button:hover {
+            background-color: #efefef;
+        }
+
+        .navigation button.disabled {
+            opacity: 0.5; /* Делаем чуть-чуть прозрачным-черным совсем чуть-чуть */
+            cursor: not-allowed; /* Пока курсорик */
+            pointer-events: none; /* Шобы не кликался */
+        }
+
+        .finish-button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 8px 16px;
+            border: 1px solid #7b7b7b;
+            border-radius: 6px;
+            background-color: #fff;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .finish-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 32px auto;
+            padding: 32px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 700px;
+            border-radius: 20px;
+
+            flex-direction: column;
+
+        }
+        .modal-content h1{
+            font-size: 24px;
+            margin-bottom: 16px
+        }
+        .modal-content button {
+            padding: 16px 32px;
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 6px;
+            color: #000000;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .modal-content h2{
+            margin-bottom: 32px ;
+        }
+        .modal-content p {
+            margin: 8px 0;
+        }
+
+        .modal-content button:hover {
+            background-color: #f0f0f0;
+        }
+        .finish-close-button {
+            display: flex;
+            justify-content: space-around;
+        }
+        .cex {
+            margin: 32px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .results-button{
+            display: flex;
+            justify-content: center; /* Центрирование кнопки */
+            margin-top: 20px; /* Отступ сверху для кнопки */
+        }
+        .dom {
+            border: 1px solid #7b7b7b;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: #ffffff;
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="cex">
+        <button class="dom">Тесты</button>
+        <div class="sidebar" id="sidebar">
+
+        </div>
+    </div>
+    <div class="content">
+        <h1 id="test-title">Тест на знание персонажей из игры Dota 2</h1>
+        <div class="question-box" id="question-box">
+            <p id="question-text">Какой персонаж является магом-лекарем?</p>
+            <div id="options"></div>
+        </div>
+        <div class="navigation">
+            <button id="prev-button" onclick="prevQuestion()"></button>
+            <button id="next-button" onclick="nextQuestion()"></button>
+        </div>
+        <button class="finish-button" onclick="showModal()">Завершить</button>
+    </div>
+
+</div>
+
+<div id="finishModal" class="modal">
+    <div class="modal-content">
+        <h1>Вы точно хотите завершить тест?</h1>
+        <div class="finish-close-button">
+        <button onclick="finishTest()">Да</button>
+        <button onclick="closeModal()">Нет</button>
+        </div>
+    </div>
+</div>
+
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <h2>Вы завершили тест</h2>
+        <p id="correctAnswers">Правильные ответы - 0</p>
+        <p id="incorrectAnswers">Неправильные ответы - 0</p>
+        <p id="unansweredQuestions">Вопросов без ответа - 0</p>
+        <div class="results-button">
+        <button onclick="closeResultModal()">Понятно</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let answeredQuestions = {};
+    let testData = null; // переменная для хранения загруженных данных
+
+    // Функция для загрузки данных из JSON файла
+    // Функция для загрузки данных из JSON файла
+    async function loadTest() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const testId = urlParams.get('id'); // Получаем id из URL
+
+        const response = await fetch('./data/data.json');
+        const jsonData = await response.json();
+        // Устанавливаем текст для кнопок навигации
+        document.getElementById('prev-button').innerText = getComputedStyle(document.documentElement).getPropertyValue('--icon-arrow-left').replace(/['"]/g, '').trim();
+        document.getElementById('next-button').innerText = getComputedStyle(document.documentElement).getPropertyValue('--icon-arrow-right').replace(/['"]/g, '').trim();
+        // Получаем пользовательские тесты из localStorage
+        const savedTests = JSON.parse(localStorage.getItem('tests')) || [];
+
+        // Объединяем предустановленные и пользовательские тесты
+        const allTests = [...jsonData, ...savedTests];
+
+        console.log('Загруженные тесты:', jsonData);
+        console.log('Сохраненные тесты:', savedTests);
+        console.log('Все тесты:', allTests);
+
+        // Ищем тест по ID среди всех тестов
+        testData = allTests.find(test => test.id === testId);
+
+        if (testData) {
+            document.getElementById('test-title').innerText = testData.title;
+            const sidebar = document.getElementById('sidebar');
+
+            // Очищаем существующие кнопки в sidebar, кроме первой
+            while (sidebar.children.length > 1) {
+                sidebar.removeChild(sidebar.lastChild);
+            }
+
+            testData.questions.forEach((question, index) => {
+                const button = document.createElement('button');
+                button.id = `question-${index + 1}`;
+                button.innerText = `Вопрос ${index + 1}`;
+                button.onclick = () => showQuestion(index);
+                if (index === 0) {
+                    button.classList.add('active');
+                }
+                sidebar.appendChild(button);
+            });
+            showQuestion(0);
+            updateNavigationButtons();
+        } else {
+            console.error('Тест не найден');
+            // Можно добавить обработку ситуации, когда тест не найден
+            document.getElementById('test-title').innerText = 'Тест не найден';
+        }
+    }
+
+    function showQuestion(index) {
+        currentQuestionIndex = index;
+        const question = testData.questions[index]; // используем переменную testData
+        document.getElementById('question-text').innerText = question.question;
+        const optionsContainer = document.getElementById('options');
+        optionsContainer.innerHTML = '';
+        question.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerText = option.text;
+            button.onclick = () => selectAnswer(button, option.id === question.correct);
+            optionsContainer.appendChild(button);
+        });
+        updateSidebar();
+    }
+
+    function selectAnswer(button, isCorrect) {
+        if (answeredQuestions[currentQuestionIndex]) return;
+
+        const buttons = button.parentElement.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.classList.remove('correct', 'incorrect');
+            if (btn === button) {
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    document.getElementById(`question-${currentQuestionIndex + 1}`).classList.add('correct');
+                    document.getElementById(`question-${currentQuestionIndex + 1}`).classList.remove('incorrect');
+                } else {
+                    btn.classList.add('incorrect');
+                    document.getElementById(`question-${currentQuestionIndex + 1}`).classList.add('incorrect');
+                    document.getElementById(`question-${currentQuestionIndex + 1}`).classList.remove('correct');
+                }
+            }
+        });
+
+        answeredQuestions[currentQuestionIndex] = isCorrect ? 'correct' : 'incorrect';
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            showQuestion(currentQuestionIndex - 1);
+        }
+        updateNavigationButtons();
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < testData.questions.length - 1) { // используем testData
+            showQuestion(currentQuestionIndex + 1);
+        }
+        updateNavigationButtons();
+    }
+
+    function updateNavigationButtons() {
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        // Если это первый вопрос, делаем кнопку "Назад" серой
+        if (currentQuestionIndex === 0) {
+            prevButton.classList.add('disabled');
+        } else {
+            prevButton.classList.remove('disabled');
+        }
+
+        // Если это последний вопрос, делаем кнопку "Вперед" серой
+        if (currentQuestionIndex === testData.questions.length - 1) {
+            nextButton.classList.add('disabled');
+        } else {
+            nextButton.classList.remove('disabled');
+        }
+    }
+
+    function updateSidebar() {
+        const buttons = document.querySelectorAll('.sidebar button');
+        buttons.forEach((btn, index) => {
+            btn.classList.remove('active');
+            if (index === currentQuestionIndex) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    function showModal() {
+        document.getElementById('finishModal').style.display = 'flex';
+        document.getElementById('finishModal').style.alignItems = 'flex-start';
+    }
+
+    function closeModal() {
+        document.getElementById('finishModal').style.display = 'none';
+    }
+
+    function finishTest() {
+        closeModal();
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let unansweredQuestions = testData.questions.length; // используем testData
+
+        for (let key in answeredQuestions) {
+            if (answeredQuestions[key] === 'correct') {
+                correctAnswers++;
+            } else if (answeredQuestions[key] === 'incorrect') {
+                incorrectAnswers++;
+            }
+        }
+
+        unansweredQuestions -= (correctAnswers + incorrectAnswers);
+
+        document.getElementById('correctAnswers').innerText = `Правильные ответы - ${correctAnswers}`;
+        document.getElementById('incorrectAnswers').innerText = `Неправильные ответы - ${incorrectAnswers}`;
+        document.getElementById('unansweredQuestions').innerText = `Вопросов без ответа - ${unansweredQuestions}`;
+
+        document.getElementById('resultModal').style.display = 'flex';
+        document.getElementById('resultModal').style.alignItems = 'flex-start';
+    }
+
+    function closeResultModal() {
+        document.getElementById('resultModal').style.display = 'none';
+        document.querySelector('.finish-button').innerText = 'Пройти тест заново';
+        document.querySelector('.finish-button').onclick = resetTest;
+    }
+
+    function resetTest() {
+        answeredQuestions = {};
+        currentQuestionIndex = 0;
+        showQuestion(currentQuestionIndex);
+
+        const buttons = document.querySelectorAll('.sidebar button');
+        buttons.forEach(btn => {
+            btn.classList.remove('correct', 'incorrect', 'active');
+        });
+
+        document.getElementById('question-1').classList.add('active');
+
+        document.querySelector('.finish-button').innerText = 'Завершить';
+        document.querySelector('.finish-button').onclick = showModal;
+    }
+
+    // Initialize the test
+    loadTest();
+</script>
+</body>
+</html>

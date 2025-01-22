@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./styles/variables.css" rel="stylesheet"> <!-- Подключаем файл с переменными -->
+    <link href="./styles/mm.css" rel="stylesheet">
+    <link href="./styles/reset.css" rel="stylesheet">
+    <title>Список тестов</title>
+    <style>
+        .delete-icon {
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-border-color);
+            cursor: pointer;
+        }
+
+        .test-item:hover .delete-icon {
+            display: block;
+        }
+
+        .question-controls button {
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+
+        .question {
+            margin-bottom: 20px;
+            width: 60%;
+        }
+
+        .question-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .question-label span {
+            font-weight: bold;
+        }
+
+        .question-input {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .question-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #7b7b7b;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .answers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .answers .answer {
+            display: flex;
+            align-items: center;
+            width: calc(50% - 10px);
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .answers .answer input[type="text"] {
+            flex: 1;
+
+            border: 1px solid #7b7b7b;
+            border-radius: 12px;
+        }
+
+        .save-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            right: 20px;
+        }
+
+        .buttons button {
+            padding: 10px;
+            margin-left: 5px;
+            border: 1px solid #7b7b7b;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 724px) {
+            .answers .answer {
+                width: 100%;
+            }
+        }
+
+        .container-second {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            z-index: 10;
+            justify-content: flex-start;
+        }
+
+
+        * {
+            font-family: 'Manrope', serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        button {
+            background: none;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Предыдущие стили остаются без изменений */
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+
+        p {
+            font-size: 1em;
+            margin-bottom: 2em;
+            text-align: center;
+        }
+
+        .test-list {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 1em;
+            width: 100%;
+        }
+
+        .delete-icon {
+            display: none;
+            position: absolute;
+            right: 10px;
+        }
+
+        .delete-icon {
+            display: block;
+        }
+
+        .add-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            background-color: #fff;
+            cursor: pointer;
+            z-index: 10;
+            font-weight: bold;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            max-width: 90%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 30;
+        }
+
+        .container input[type="text"] {
+            width: 100%;
+            height: 24px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .question-container input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+
+        .question-buttons button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .error {
+            background-color: #ffb6b6;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrapper" id="main-wrapper">
+    <h1 id="list-title">Добро пожаловать</h1>
+    <p test-id="list-subtitle">Сайт посвящен прохождению тестов. Выберите тест, который хотите пройти.</p>
+    <div class="test-list" id="list_items">
+        <!-- Тесты загружайтесь сюда пжшка -->
+    </div>
+</div>
+
+<div class="add-button" id="list-add-button">
+    +
+</div>
+
+<div class="container-second" id="second-container">
+    <div class="container" test-id="form-modal">
+        <h1 test-id="form-title">Создание теста</h1>
+        <label for="test-name">Укажите название теста</label>
+        <input type="text" id="test-name" test-id="new-test-title">
+        <div class="buttons">
+            <button onclick="addQuestion()" test-id="add-question-button">+</button>
+            <button onclick="removeQuestion()" test-id="remove-question-button">-</button>
+        </div>
+        <div id="questions-container">
+            <div class="question">
+                <div class="question-label">
+                    <span>Вопрос 1</span>
+                </div>
+                <label class="question-input">
+                    <input type="text" id="question-1" test-id="new-test-question">
+                </label>
+                <div class="answers" test-id="new-test-options">
+                    <label class="answer" test-id="new-test-options">
+                        <input type="radio" name="correctAnswer1" value="option1">
+                        <input type="text">
+                    </label>
+                    <label class="answer" test-id="new-test-options">
+                        <input type="radio" name="correctAnswer1" value="option2">
+                        <input type="text">
+                    </label>
+                    <label class="answer" test-id="new-test-options">
+                        <input type="radio" name="correctAnswer1" value="option3">
+                        <input type="text">
+                    </label>
+                    <label class="answer" test-id="new-test-options">
+                        <input type="radio" name="correctAnswer1" value="option4"> <
+                        <input type="text">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="error-message" id="error-message">Все поля должны быть заполнены</div>
+        <div class="error-message" id="error-message-radio">Выберите ответы на все вопросы</div>
+        <button class="save-button" id="save-button" onclick="validateForm()">Сохранить</button>
+    </div>
+</div>
+
+<script>
+    let questionCount = 1;
+
+    // из сайта какого то стыбзил https://code.mu/ru/javascript/book/supreme/data/generation-random-id/ 
+    function getId(length = 32) {
+        let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let res = '';
+        for (let i = 0; i < length; i++) {
+            res += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return res;
+    }
+
+    //gpt40 или Claude-Sonnet 3.5 не помню
+    async function loadTests() {
+        try {
+            const response = await fetch('./data/data.json');
+            const testsData = await response.json();
+            console.log('Загруженные тесты:', testsData); // Лог загруженных тестов
+            renderTestList(testsData);
+        } catch (error) {
+            console.error('Ошибка при загрузке тестов:', error);
+        }
+    }
+
+    // вроде бы gpt40
+    function renderTestList(testsData) {
+        const testList = document.getElementById('list_items');
+        testList.innerHTML = ''; // Очищаем список
+
+        const savedTests = JSON.parse(localStorage.getItem('tests')) || [];
+        const allTests = [...testsData, ...savedTests];
+
+        allTests.forEach(test => {
+            const testItem = document.createElement('div');
+            testItem.className = 'test-item';
+            testItem.innerHTML = `${test.title} <span class="delete-icon" data-id="${test.id}">🗑</span>`;
+            testItem.addEventListener('click', () => {
+                localStorage.setItem('currentTest', JSON.stringify(test));
+                window.location.href = `test.html?id=${test.id}`;
+            });
+
+            // Обработчик для удаления теста
+            testItem.querySelector('.delete-icon').addEventListener('click', (event) => {
+                event.stopPropagation(); // Останавливаем всплытие события
+                deleteTest(test.id, testsData); // Удаляем тест
+            });
+
+            testList.appendChild(testItem);
+        });
+    }
+
+    function deleteTest(id, testsData) {
+        const savedTests = JSON.parse(localStorage.getItem('tests')) || [];
+        const updatedTests = savedTests.filter(test => test.id !== id); // удал польз тесты
+        localStorage.setItem('tests', JSON.stringify(updatedTests));
+        renderTestList(testsData); // Обновляем список тестов
+    }
+
+    document.getElementById('list-add-button').addEventListener('click', () => {
+        document.getElementById('second-container').classList.add('active'); // открытие
+        questionCount = 1; // бб колву вопросов
+    });
+
+    // кусок от gpt40 и потом сам делал (вопросы +)
+    function addQuestion() {
+        questionCount++;
+        const questionsContainer = document.getElementById('questions-container');
+        const newQuestion = document.createElement('div');
+        newQuestion.classList.add('question');
+        newQuestion.innerHTML = `
+        <div class="question-label">
+            <span>Вопрос ${questionCount}</span>
+        </div>
+        <div class="question-input">
+            <input type="text" id="question-${questionCount}">
+        </div>
+        <div class="answers">
+            <div class="answer">
+                <input type="radio" name="correctAnswer${questionCount}" value="option1">
+                <input type="text" >
+            </div>
+            <div class="answer">
+                <input type="radio" name="correctAnswer${questionCount}" value="option2">
+                <input type="text" >
+            </div>
+            <div class="answer">
+                <input type="radio" name="correctAnswer${questionCount}" value="option3">
+                <input type="text" >
+            </div>
+            <div class="answer">
+                <input type="radio" name="correctAnswer${questionCount}" value="option4">
+                <input type="text" >
+            </div>
+        </div>
+    `;
+        questionsContainer.appendChild(newQuestion);
+    }
+
+    // кол-во вопросов -
+    function removeQuestion() {
+        if (questionCount > 1) {
+            const questionsContainer = document.getElementById('questions-container');
+            questionsContainer.removeChild(questionsContainer.lastChild);
+            questionCount--;
+        }
+    }
+
+    function saveTest() {
+        const testName = document.getElementById('test-name').value.trim();
+        const questions = [];
+
+        for (let i = 1; i <= questionCount; i++) {
+            const questionText = document.getElementById(`question-${i}`).value.trim();
+            const options = Array.from(document.querySelectorAll(`.question:nth-child(${i}) .answers .answer`)).map((option) => ({
+                id: getId(), //айди можно не проверять по скольку он состоит из 62 символов и имеет длинну 32 символа(повторится раз в 10^57 (во вселенной всего около 10^80 частиц))
+                text: option.querySelector('input[type="text"]').value,
+            }));
+
+            // отправка опр ответа
+            const correctOption = [...document.querySelectorAll(`input[name="correctAnswer${i}"]:checked`)];
+            const correctAnswerId = correctOption.length > 0 ? options.find(option => option.text === correctOption[0].nextElementSibling.value).id : null;
+
+            questions.push({
+                id: getId(),  //айди можно не проверять по скольку он состоит из 62 символов и имеет длинну 32 символа(повторится раз в 10^57 (во вселенной всего около 10^80 частиц))
+                question: questionText,
+                correct: correctAnswerId, // сохраняем супер айди
+                options: options,
+            });
+        }
+
+        if (testName && questions.length > 0) {
+            const tests = JSON.parse(localStorage.getItem('tests')) || [];
+            const newTest = {
+                id: getId(),  //айди можно не проверять по скольку он состоит из 62 символов и имеет длинну 32 символа(повторится раз в 10^57 (во вселенной всего около 10^80 частиц))
+                title: testName,
+                questions: questions,
+            };
+            tests.push(newTest);
+            localStorage.setItem('tests', JSON.stringify(tests)); // Сохраняем в localStorage
+            renderTestList(tests); // Обновляем список тестов
+            document.getElementById('second-container').classList.remove('active'); // оффаем окно
+            document.getElementById('test-name').value = '';
+            document.querySelectorAll('.question-input input[type="text"]').forEach(input => input.value = '');
+            document.querySelectorAll('.answers .answer input[type="text"]').forEach(input => input.value = '');
+            document.querySelectorAll('.answers .answer input[type="radio"]').forEach(radio => radio.checked = false);
+        } else {
+            document.getElementById('error-message').textContent = 'Пожалуйста, заполните все поля и выберите один из вариантов ответа.';
+        }
+    }
+
+    // оффание окна создания теста при клике вне контейнера как вы хотели в условии
+    document.getElementById('second-container').addEventListener('click', (event) => {
+        if (event.target === document.getElementById('second-container')) {
+            document.getElementById('second-container').classList.remove('active'); // Закрываем окно
+        }
+    });
+
+    function validateForm() {
+        let inputs = document.querySelectorAll('.container input[type="text"]');
+        let allFilled = true;
+        inputs.forEach(function(input) {
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+                allFilled = false;
+            } else {
+                input.classList.remove('error');
+            }
+        });
+
+        let allCorrectAnswersSelected = true;
+        for (let i = 1; i <= questionCount; i++) {
+            let correctRadios = document.querySelectorAll(`input[name="correctAnswer${i}"]`);
+            if (![...correctRadios].some(radio => radio.checked)) {
+                allCorrectAnswersSelected = false;
+                break;
+            }
+        }
+
+        let errorMessage = document.getElementById('error-message');
+        let errorMessageRadio = document.getElementById('error-message-radio');
+
+        if (!allFilled) {
+            errorMessage.textContent = 'Пожалуйста, заполните все поля'; // пжшка
+            errorMessage.style.display = 'block'; //пикми
+            errorMessageRadio.style.display = 'none';
+        } else if (!allCorrectAnswersSelected) {
+            errorMessage.style.display = 'none';
+            errorMessageRadio.textContent = 'Пожалуйста, выберите правильный ответ для каждого вопроса'; // побратски
+            errorMessageRadio.style.display = 'block'; // пикми
+        } else {
+            errorMessage.style.display = 'none'; // нормис
+            errorMessageRadio.style.display = 'none';
+            saveTest();
+        }
+    }
+
+    loadTests().catch(error => console.error('Ошибка при инициализации тестов:', error));
+</script>
+</body>
+</html>

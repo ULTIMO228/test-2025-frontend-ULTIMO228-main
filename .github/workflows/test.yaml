@@ -1,0 +1,41 @@
+name: Run tests
+
+on: deployment
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-22.04
+    timeout-minutes: 16
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 20.10.0
+      - run: npm ci
+
+      - run: npx playwright install --with-deps
+      - run: npm run test
+        env:
+          PLAYWRIGHT_JUNIT_OUTPUT_NAME: test-results/results.xml
+        continue-on-error: true
+
+      - uses: Central-University-IT/junit-action@main
+        with:
+          files: |
+            test-results/results.xml
+        id: junit
+
+      - uses: actions/upload-artifact@v4.0.0
+        with:
+          name: result
+          path: ${{ steps.junit.outputs.result_file }}
+          if-no-files-found: error
+          compression-level: 0
