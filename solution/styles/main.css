@@ -1,79 +1,254 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
-@import './variables.css';
-@import './reset.css';
+
+* {
+    font-family: 'Manrope', serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+body {
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
 .container {
     display: flex;
-    width: 90%;
+    width: 100%;
     background-color: #fff;
-    border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 32px;
-    margin: 0 auto;
+    overflow: hidden;
 }
+
 .sidebar {
-    width: 20%;
-    border-right: 1px solid #ddd;
-    padding-right: 20px;
+    width: 170px;
+    border: 1px solid #7b7b7b;
+    padding: 16px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    height: 90vh;
+    margin-top: 32px;
 }
+
 .sidebar button {
+    display: block;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
     background-color: #fff;
+    color: #000000;
     cursor: pointer;
-    text-align: left;
-}
-.sidebar button.active {
-    background-color: #f0f0f0;
-    font-weight: bold;
-}
-.content {
-    width: 80%;
-    padding-left: 20px;
+    font-size: 16px;
     text-align: center;
+    transition: background-color 0.3s, border-color 0.3s;
 }
+
+.sidebar button:hover {
+    background-color: #efefef;
+}
+
+.sidebar button.active {
+    border-color: #000;
+}
+
+.sidebar button.correct {
+    background-color: #ccffb6;
+}
+
+.sidebar button.incorrect {
+    background-color: #ffb6b6;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .content h1 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
 }
+
 .question-box {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    display: flex;
     padding: 20px;
-    display: inline-block;
-    text-align: left;
+    border: 1px solid #7b7b7b;
+    border-radius: 16px;
+    background-color: #ffffff;
+    flex-direction: column;
+    margin: 18px auto;
 }
+
 .question-box p {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 24px;
+    margin: 12px;
+    font-weight: bold;
 }
+
 .question-box button {
-    padding: 10px 20px;
-    margin: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 8px 16px;
+    margin: 8px;
+    border: 1px solid #7b7b7b;
+    border-radius: 6px;
     background-color: #fff;
     cursor: pointer;
+    transition: background-color 0.3s;
+    color: black;
+    font-size: 16px;
 }
+
+.question-box button:hover {
+    background-color: #f0f0f0;
+}
+
+.question-box button.correct {
+    background-color: #ccffb6;
+}
+
+.question-box button.incorrect {
+    background-color: #ffb6b6;
+}
+
 .navigation {
-    margin-top: 20px;
+    margin: 32px;
 }
+
 .navigation button {
-    padding: 10px;
-    margin: 0 10px;
-    border: 1px solid #ddd;
+    margin: 0 16px;
+    border: 1px solid #7b7b7b;
     border-radius: 50%;
     background-color: #fff;
     cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 24px;
+    height: 50px;
+    width: 50px;
 }
+
+.navigation button:hover {
+    background-color: #efefef;
+}
+
+.navigation button.disabled {
+    opacity: 0.5; /* Делаем чуть-чуть прозрачным-черным совсем чуть-чуть */
+    cursor: not-allowed; /* Пока курсорик */
+    pointer-events: none; /* Шобы не кликался */
+}
+
 .finish-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    display: block;
+    margin: 20px auto 0;
+    padding: 8px 16px;
+    border: 1px solid #7b7b7b;
+    border-radius: 6px;
     background-color: #fff;
     cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+
+.finish-button:hover {
+    background-color: #f0f0f0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 32px auto;
+    padding: 32px;
+    border: 1px solid #888;
+    width: 50%;
+    max-width: 700px;
+    border-radius: 20px;
+
+    flex-direction: column;
+
+}
+.modal-content h1{
+    font-size: 24px;
+    margin-bottom: 16px
+}
+.modal-content button {
+    padding: 16px 32px;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #000000;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+.modal-content h2{
+    margin-bottom: 32px ;
+}
+.modal-content p {
+    margin: 8px 0;
+}
+
+.modal-content button:hover {
+    background-color: #f0f0f0;
+}
+.finish-close-button {
+    display: flex;
+    justify-content: space-around;
+}
+.cex {
+    margin: 32px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.results-button{
+    display: flex;
+    justify-content: center; /* Центрирование кнопки */
+    margin-top: 20px; /* Отступ сверху для кнопки */
+}
+.dom {
+    border: 1px solid #7b7b7b;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: black;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
 }
